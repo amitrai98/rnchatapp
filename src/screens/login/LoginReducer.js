@@ -1,4 +1,4 @@
-import * as types from './loginActions';
+import * as types from './LoginActions';
 
 const initialState = {
   data: {},

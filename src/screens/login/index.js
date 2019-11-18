@@ -3,6 +3,11 @@ import {View, Text, StyleSheet} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {attemptLogin} from './LoginActions';
+import LoginForm from './logincomponents/LoginForm';
+import AnimatedLinearGradient, {
+  presetColors,
+} from 'react-native-animated-linear-gradient';
+
 type Props = {};
 
 export class Login extends Component<Props> {
@@ -12,8 +17,14 @@ export class Login extends Component<Props> {
   }
   render() {
     return (
-      <View>
-        <Text>hello</Text>
+      <View style={styles.container}>
+        <AnimatedLinearGradient
+          customColors={presetColors.instagram}
+          speed={4000}
+        />
+        <View style={styles.formContainer}>
+          <LoginForm />
+        </View>
       </View>
     );
   }
@@ -38,5 +49,10 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    paddingHorizontal: '5%',
+    paddingTop: '10%',
+  },
+  formContainer: {backgroundColor: 'transparent'},
 });
