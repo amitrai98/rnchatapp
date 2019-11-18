@@ -1,2 +1,3 @@
 import HomeReducer from '../screens/home/HomeReducer';
-export {HomeReducer};
+import LoginReducer from '../screens/login/LoginReducer';
+export {HomeReducer, LoginReducers};
