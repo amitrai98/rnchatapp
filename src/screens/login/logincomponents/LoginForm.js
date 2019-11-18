@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -6,28 +6,41 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import {Base64} from 'js-base64';
 
 const LoginForm = props => {
   const {onLoginPress} = props;
+  const [username, setUsername, password, setPassword] = useState(0);
+
   return (
     <View style={styles.container}>
       <TextInput
         autoCorrect={false}
         autoCapitalize={'none'}
-        maxLength={16}
+        maxLength={40}
         multiline={false}
         style={styles.usernameInput}
+        onChangeText={username => {
+          setUsername(Base64.encode(username));
+        }}
       />
       <TextInput
         autoCorrect={false}
         autoCapitalize={'none'}
-        maxLength={16}
+        maxLength={20}
         multiline={false}
         secureTextEntry={true}
         style={styles.usernameInput}
+        // onChangeText={password => {
+        //   setPassword(Base64.encode(password));
+        // }}
       />
       <View>
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => {
+            onLoginPress(username, password);
+          }}>
           <Text style={styles.loginText}>{`Login`}</Text>
         </TouchableOpacity>
         <View style={styles.signupContainer}>
@@ -55,6 +68,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     alignSelf: 'center',
+    color: 'white',
   },
   signupContainer: {
     flexDirection: 'row',

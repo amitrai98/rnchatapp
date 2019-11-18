@@ -15,6 +15,10 @@ export class Login extends Component<Props> {
     super(props);
     this.state = {};
   }
+
+  attemptLogin(username, password) {
+    alert(`username is ${username} \n password is ${password}`);
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -23,7 +27,11 @@ export class Login extends Component<Props> {
           speed={4000}
         />
         <View style={styles.formContainer}>
-          <LoginForm />
+          <LoginForm
+            onLoginPress={(username, password) =>
+              this.attemptLogin(username, password)
+            }
+          />
         </View>
       </View>
     );
