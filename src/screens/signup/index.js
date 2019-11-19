@@ -58,5 +58,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
     paddingTop: '10%',
   },
-  formContainer: {backgroundColor: 'transparent'},
+  formContainer: {flex: 1, backgroundColor: 'transparent'},
 });
