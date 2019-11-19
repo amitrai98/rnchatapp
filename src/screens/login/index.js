@@ -19,6 +19,9 @@ export class Login extends Component<Props> {
   attemptLogin(username, password) {
     alert(`username is ${username} \n password is ${password}`);
   }
+  openSignUpPage() {
+    this.props.navigation.navigate('signup');
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -28,6 +31,7 @@ export class Login extends Component<Props> {
         />
         <View style={styles.formContainer}>
           <LoginForm
+            onSignUpPress={() => this.openSignUpPage()}
             onLoginPress={(username, password) =>
               this.attemptLogin(username, password)
             }

@@ -9,8 +9,9 @@ import {
 import {Base64} from 'js-base64';
 
 const LoginForm = props => {
-  const {onLoginPress} = props;
-  const [username, setUsername, password, setPassword] = useState(0);
+  const {onLoginPress, onSignUpPress} = props;
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <View style={styles.container}>
@@ -31,9 +32,9 @@ const LoginForm = props => {
         multiline={false}
         secureTextEntry={true}
         style={styles.usernameInput}
-        // onChangeText={password => {
-        //   setPassword(Base64.encode(password));
-        // }}
+        onChangeText={password => {
+          setPassword(Base64.encode(password));
+        }}
       />
       <View>
         <TouchableOpacity
@@ -45,7 +46,7 @@ const LoginForm = props => {
         </TouchableOpacity>
         <View style={styles.signupContainer}>
           <Text>{`need an account ? `}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onSignUpPress()}>
             <Text style={styles.signupText}>{` Sign up`}</Text>
           </TouchableOpacity>
         </View>

@@ -7,6 +7,7 @@ import AnimatedLinearGradient, {
   presetColors,
 } from 'react-native-animated-linear-gradient';
 import SignUpForm from './signupcomponents/SignUpForm';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 type Props = {};
 
@@ -19,6 +20,9 @@ export class Signup extends Component<Props> {
   attemptSignup(signupObject) {
     alert(`username is ${signupObject} `);
   }
+  openLoginPage() {
+    this.props.navigation.navigate('login');
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -26,9 +30,16 @@ export class Signup extends Component<Props> {
           customColors={presetColors.instagram}
           speed={4000}
         />
-        <View style={styles.formContainer}>
-          <SignUpForm />
-        </View>
+        <KeyboardAwareScrollView>
+          <View style={styles.formContainer}>
+            <SignUpForm
+              onSignUpPress={() => {
+                this.attemptSignup();
+              }}
+              onLoginPress={() => this.openLoginPage()}
+            />
+          </View>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
