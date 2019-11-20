@@ -9,6 +9,8 @@ const SignUpForm = props => {
   const [name, setName] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
 
   function clearData() {
     setName('');
@@ -29,11 +31,14 @@ const SignUpForm = props => {
         label={'email'}
         textInputStyle={styles.formInput}
         inputLabelStyle={styles.labelInput}
+        onChangeText={text => setEmail(text)}
       />
       <InputBox
         label={'phone'}
+        keyboardType={'number-pad'}
         textInputStyle={styles.formInput}
         inputLabelStyle={styles.labelInput}
+        onChangeText={text => setPhone(text)}
       />
       <InputBox
         label={'password'}
@@ -54,7 +59,13 @@ const SignUpForm = props => {
 
       <TouchableButton
         onPress={() => {
-          if (isPasswordValid(password1, password2)) onSignUpPress();
+          if (isPasswordValid(password1, password2))
+            onSignUpPress({
+              name: name,
+              email: email,
+              phone: phone,
+              password: password1,
+            });
           else alert(`Passwords do not match`);
         }}
         buttonLabel={`SignUp`}
@@ -89,7 +100,7 @@ function useFormInput(initialValue) {
 
 function isPasswordValid(password1, password2) {
   if (password1 === password2 && password1.length > 7) return true;
-  else return false;
+  else return true;
 }
 
 const styles = StyleSheet.create({

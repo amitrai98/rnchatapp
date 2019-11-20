@@ -1,8 +1,8 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import home from './screens/home';
-import {Login} from './screens/login';
-import {Signup} from './screens/signup';
+import Login from './screens/login';
+import Signup from './screens/signup';
 
 const AppStack = createStackNavigator(
   {
@@ -11,7 +11,7 @@ const AppStack = createStackNavigator(
     signup: {screen: Signup},
   },
   {
-    initialRouteName: 'signup',
+    initialRouteName: 'login',
     defaultNavigationOptions: {
       header: null,
     },

@@ -8,11 +8,13 @@ const InputBox = props => {
     label,
     inputLabelStyle,
     secureTextEntry,
+    keyboardType,
   } = props;
   return (
     <View style={styles.container}>
       <Text style={inputLabelStyle}>{`${label}`}</Text>
       <TextInput
+        keyboardType={keyboardType}
         autoCorrect={false}
         autoCapitalize={'none'}
         maxLength={40}

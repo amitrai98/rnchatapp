@@ -13,11 +13,25 @@ type Props = {};
 export class Login extends Component<Props> {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      username: 'amit.rai@gmail.com',
+      password: 'amit.amit',
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    const {isFetching, error, data, success, failure} = this.props;
+    if (prevProps.isFetching !== isFetching && !isFetching) {
+      if (success) this.props.navigation.navigate('home', {loginData: data});
+      else if (failure) alert(`login error ${error}`);
+    }
   }
 
   attemptLogin(username, password) {
-    alert(`username is ${username} \n password is ${password}`);
+    this.props.attemptLogin({
+      username: this.state.username,
+      password: this.state.password,
+    });
   }
   openSignUpPage() {
     this.props.navigation.navigate('signup');

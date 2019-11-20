@@ -3,34 +3,22 @@ import {View, Text, StyleSheet} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getHomeData} from './HomeActions';
-import auth from '@react-native-firebase/auth';
+import AppHeader from '../common/AppHeader';
 
-type Props = {};
-
-export class Home extends Component<Props> {
+export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  async startAuthProcess(phoneNoWithCode) {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNoWithCode);
-  }
-
   componentDidMount() {
     this.props.getHomeData();
-    this.startAuthProcess('+91 8279825908')
-      .then(response => {
-        console.log(`respose is  ${response}`);
-      })
-      .catch(error => {
-        console.log(`error ${error}`);
-      });
   }
   render() {
     return (
       <View>
-        <Text>Login</Text>
+        <AppHeader title={`Home`} />
+        <Text>Home</Text>
       </View>
     );
   }

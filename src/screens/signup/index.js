@@ -18,7 +18,12 @@ export class Signup extends Component<Props> {
   }
 
   attemptSignup(signupObject) {
-    alert(`username is ${signupObject} `);
+    this.props.attemptSignup({
+      name: signupObject.name,
+      email: signupObject.email,
+      phone: signupObject.phone,
+      password: signupObject.password,
+    });
   }
   openLoginPage() {
     this.props.navigation.navigate('login');
@@ -33,8 +38,8 @@ export class Signup extends Component<Props> {
         <KeyboardAwareScrollView>
           <View style={styles.formContainer}>
             <SignUpForm
-              onSignUpPress={() => {
-                this.attemptSignup();
+              onSignUpPress={signupData => {
+                this.attemptSignup(signupData);
               }}
               onLoginPress={() => this.openLoginPage()}
             />
@@ -58,7 +63,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    attemptLogin: bindActionCreators(attemptLogin, dispatch),
+    attemptSignup: bindActionCreators(attemptSignup, dispatch),
   };
 }
 

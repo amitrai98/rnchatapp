@@ -22,7 +22,7 @@ const LoginForm = props => {
         multiline={false}
         style={styles.usernameInput}
         onChangeText={username => {
-          setUsername(Base64.encode(username));
+          setUsername(username);
         }}
       />
       <TextInput
@@ -33,7 +33,7 @@ const LoginForm = props => {
         secureTextEntry={true}
         style={styles.usernameInput}
         onChangeText={password => {
-          setPassword(Base64.encode(password));
+          setPassword(password);
         }}
       />
       <View>
