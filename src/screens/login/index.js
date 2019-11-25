@@ -7,6 +7,7 @@ import LoginForm from './logincomponents/LoginForm';
 import AnimatedLinearGradient, {
   presetColors,
 } from 'react-native-animated-linear-gradient';
+import Loader from '../common/Loader';
 
 type Props = {};
 
@@ -37,12 +38,14 @@ export class Login extends Component<Props> {
     this.props.navigation.navigate('signup');
   }
   render() {
+    const {isFetching} = this.props;
     return (
       <View style={styles.container}>
         <AnimatedLinearGradient
           customColors={presetColors.instagram}
           speed={4000}
         />
+        <Loader loading={isFetching} />
         <View style={styles.formContainer}>
           <LoginForm
             onSignUpPress={() => this.openSignUpPage()}

@@ -10,6 +10,8 @@ const AppHeader = props => {
   );
 };
 
+
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'gray',

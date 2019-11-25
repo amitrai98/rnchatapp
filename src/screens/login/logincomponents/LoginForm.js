@@ -45,8 +45,10 @@ const LoginForm = props => {
           <Text style={styles.loginText}>{`Login`}</Text>
         </TouchableOpacity>
         <View style={styles.signupContainer}>
-          <Text>{`need an account ? `}</Text>
-          <TouchableOpacity onPress={() => onSignUpPress()}>
+          <Text style={styles.needAcc}>{`need an account ? `}</Text>
+          <TouchableOpacity
+            style={styles.signupButton}
+            onPress={() => onSignUpPress()}>
             <Text style={styles.signupText}>{` Sign up`}</Text>
           </TouchableOpacity>
         </View>
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
   },
   usernameInput: {
     height: 40,
-    width: '80%',
+    width: '100%',
     borderColor: 'gray',
     borderWidth: 1,
     marginTop: 20,
@@ -81,12 +83,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: 'blue',
     paddingVertical: 10,
-    width: '80%',
+    width: '100%',
     borderRadius: 10,
     marginTop: '10%',
     alignContent: 'center',
   },
   loginText: {color: 'white', alignSelf: 'center'},
+  signupButton: {
+    paddingVertical: 10,
+    paddingRight: 20,
+  },
+  needAcc: {paddingVertical: 10},
 });
 
 export default LoginForm;
