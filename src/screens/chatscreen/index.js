@@ -27,8 +27,15 @@ export class ChatScreen extends Component<Props> {
   }
   handleSendMessage(message, senderId, receiverId) {
     let data = getMessageObject(message, senderId, receiverId);
-    this.setState({messageData: [...this.state.messageData, data]});
+    this.setState({messageData: [...this.state.messageData, data]}, () => {
+      this.flatListRef.scrollToIndex({
+        animated: true,
+        index: this.state.messageData.length - 2,
+        viewPosition: 0.5,
+      });
+    });
   }
+  getItemLayout = (data, index) => ({length: 50, offset: 50 * index, index});
   render() {
     const {chatData} = this.props.navigation.state.params;
     const {messageData} = this.state;
@@ -40,6 +47,15 @@ export class ChatScreen extends Component<Props> {
           style={{width: '100%', height: '100%'}}>
           <View style={styles.chatStyle}>
             <FlatList
+              ref={ref => {
+                this.flatListRef = ref;
+              }}
+              getItemLayout={this.getItemLayout}
+              initialScrollIndex={messageData.length - 1}
+              initialNumToRender={2}
+              onScrollToIndexFailed={error => {
+                console.log(`error in scroll ${error}`);
+              }}
               extraData={messageData.length}
               data={messageData}
               keyExtractor={item => {
@@ -83,6 +99,6 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);
 const styles = StyleSheet.create({
   container: {flex: 1},
-  chatStyle: {flex: 1, marginTop: 10, marginBottom: 40},
+  chatStyle: {flex: 1, marginTop: 10, marginBottom: 100},
   chatBox: {position: 'absolute', bottom: 0, left: 0, right: 0},
 });

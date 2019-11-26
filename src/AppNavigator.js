@@ -13,7 +13,7 @@ const AppStack = createStackNavigator(
     chatScreen: {screen: ChatScreen},
   },
   {
-    initialRouteName: 'home',
+    initialRouteName: 'login',
     defaultNavigationOptions: {
       header: null,
     },
