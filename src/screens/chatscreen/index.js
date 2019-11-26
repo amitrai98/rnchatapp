@@ -21,14 +21,12 @@ export class ChatScreen extends Component<Props> {
   handleSendMessage(message, senderId, receiverId) {
     let data = getMessageObject(message, senderId, receiverId);
     this.setState({messageData: [...this.state.messageData, data]}, () => {
-      this.flatListRef.scrollToIndex({
+      this.flatListRef.scrollToEnd({
         animated: true,
-        index: this.state.messageData.length - 2,
-        viewPosition: 0.5,
       });
     });
   }
-  getItemLayout = (data, index) => ({length: 50, offset: 50 * index, index});
+  getItemLayout = (data, index) => ({length: 10, offset: 100 * index, index});
   render() {
     const {chatData} = this.props.navigation.state.params;
     const {messageData} = this.state;
@@ -43,9 +41,6 @@ export class ChatScreen extends Component<Props> {
               ref={ref => {
                 this.flatListRef = ref;
               }}
-              getItemLayout={this.getItemLayout}
-              initialScrollIndex={messageData.length - 1}
-              initialNumToRender={2}
               onScrollToIndexFailed={error => {
                 console.log(`error in scroll ${error}`);
               }}
