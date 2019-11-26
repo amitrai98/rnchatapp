@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  ImageBackground,
-} from 'react-native';
+import {View, StyleSheet, FlatList, ImageBackground} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {pullChats} from './ChatscreenActions';

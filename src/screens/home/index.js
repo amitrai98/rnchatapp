@@ -26,6 +26,7 @@ export class Home extends Component {
   openChatScreen(chatData) {
     this.props.navigation.navigate('chatScreen', {chatData: chatData});
   }
+
   render() {
     const {users} = this.state;
     return (
