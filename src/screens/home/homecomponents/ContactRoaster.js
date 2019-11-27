@@ -28,7 +28,7 @@ const ContactRoaster = props => {
           </View>
           <View style={styles.namePreview}>
             <Text numberOfLines={1} style={styles.headerText}>
-              {user.name}
+              {`${user.givenName} `}
             </Text>
             <Text numberOfLines={1} style={styles.headerText}>
               message

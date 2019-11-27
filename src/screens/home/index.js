@@ -5,22 +5,35 @@ import {connect} from 'react-redux';
 import {getHomeData} from './HomeActions';
 import AppHeader from '../common/AppHeader';
 import ContactRoaster from './homecomponents/ContactRoaster';
+import {requestContactPermission} from '../../util/Utility';
 
 export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [
-        {id: 1, name: 'amit', status: 'offline'},
-        {id: 2, name: 'amit', status: 'offline'},
-        {id: 3, name: 'amit', status: 'offline'},
-        {id: 4, name: 'amit', status: 'offline'},
-      ],
+      users: [],
     };
   }
 
   componentDidMount() {
+    const {users} = this.state;
     this.props.getHomeData();
+    requestContactPermission()
+      .then(result => {
+        console.log(`${result}`);
+        if (result != undefined && result.success) {
+          console.log(`${result}`);
+          result.data.map(item => {
+            console.log(`${item}`);
+            users.push(item);
+          });
+
+          this.setState({users});
+        } else {
+          console.log(`${result}`);
+        }
+      })
+      .catch(error => console.log(`${error}`));
   }
 
   openChatScreen(chatData) {
@@ -35,7 +48,7 @@ export class Home extends Component {
         <View style={styles.roasterView}>
           <FlatList
             data={users}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={item => item.rawContactId}
             renderItem={({item, index}) => (
               <ContactRoaster
                 user={item}

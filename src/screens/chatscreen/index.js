@@ -9,9 +9,8 @@ import chat from './components/chat';
 import images from '../../assets/images';
 import ChatInputBox from './components/ChatInputBox';
 import {getMessageObject} from './components/ChatHelper';
-type Props = {};
 
-export class ChatScreen extends Component<Props> {
+export class ChatScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
