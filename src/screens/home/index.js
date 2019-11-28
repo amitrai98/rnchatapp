@@ -6,6 +6,8 @@ import {getHomeData} from './HomeActions';
 import AppHeader from '../common/AppHeader';
 import ContactRoaster from './homecomponents/ContactRoaster';
 import {requestContactPermission} from '../../util/Utility';
+import ApiHandler from '../../networking/ApiHandler';
+import {firebase} from '@react-native-firebase/database';
 
 export class Home extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ export class Home extends Component {
 
   componentDidMount() {
     const {users} = this.state;
+    const loginData = this.props.navigation.getParam('loginData');
     this.props.getHomeData();
     requestContactPermission()
       .then(result => {
@@ -29,6 +32,19 @@ export class Home extends Component {
           });
 
           this.setState({users});
+          if (users.length > 0) {
+            var user = firebase.auth().currentUser;
+            let instance = ApiHandler.getInstance();
+            // users.map(contact => {
+            //   instance
+            //     .addContact({
+            //       userData: contact,
+            //       userId: user.uid,
+            //     })
+            //     .then(result => console.log(`result is ${result}`))
+            //     .catch(error => console.log(`error is ${error}`));
+            // });
+          }
         } else {
           console.log(`${result}`);
         }

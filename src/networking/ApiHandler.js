@@ -1,4 +1,5 @@
 import {firebase} from '@react-native-firebase/database';
+import {success, failure} from './NetworkConst';
 
 var authToken = null;
 export default class ApiHandler {
@@ -66,6 +67,35 @@ export default class ApiHandler {
         .catch(error => {
           reject(error);
         });
+    });
+  }
+
+  addContact(payload) {
+    return new Promise((resolve, reject) => {
+      const {userData, userId} = payload;
+      firebase
+        .database()
+        .ref(`UsersList/${userId}/`)
+        .push({
+          userData,
+        })
+        .then(data => {
+          //success callback
+          console.log('data ', data);
+          resolve(success(data));
+        })
+        .catch(error => {
+          //error callback
+          console.log('error ', error);
+          reject(failure(error));
+        });
+    });
+  }
+
+  getFirebaseContacts(userId) {
+    const contactRef = firebase.database().ref(`UsersList/${userId}/`);
+    contactRef.on('value', function(snapshot) {
+      console.log(`${JSON.stringify(snapshot.val())}`);
     });
   }
 }

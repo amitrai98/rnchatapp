@@ -24,7 +24,7 @@ export default function loginReducer(state = initialState, action = {}) {
         isFetching: false,
         success: true,
         failure: false,
-        data: action.data,
+        data: action.payload,
       };
     case types.ATTEMPT_LOGIN_FAILURE:
       return {
