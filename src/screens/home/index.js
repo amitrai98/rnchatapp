@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {getHomeData} from './HomeActions';
+import {getHomeData, addNewContact} from './HomeActions';
 import AppHeader from '../common/AppHeader';
 import ContactRoaster from './homecomponents/ContactRoaster';
 import {requestContactPermission} from '../../util/Utility';
@@ -35,14 +35,9 @@ export class Home extends Component {
           if (users.length > 0) {
             var user = firebase.auth().currentUser;
             let instance = ApiHandler.getInstance();
+
             // users.map(contact => {
-            //   instance
-            //     .addContact({
-            //       userData: contact,
-            //       userId: user.uid,
-            //     })
-            //     .then(result => console.log(`result is ${result}`))
-            //     .catch(error => console.log(`error is ${error}`));
+            //   this.props.addNewContact({contact: contact});
             // });
           }
         } else {
@@ -53,16 +48,24 @@ export class Home extends Component {
   }
 
   componentDidUpdate(prevProp) {
+    const {users} = this.state;
     const {isFetching, error, data, success, failure} = this.props;
     if (prevProp.isFetching !== isFetching && !isFetching) {
       if (success) {
         console.log(`response data is ${data}`);
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            var val = data[key];
+            console.log(val);
+            users.push(val.userData);
+          }
+        }
         // data.map(item => {
         //   console.log(`${item}`);
         //   users.push(item);
         // });
 
-        // this.setState({users});
+        this.setState({users});
       }
     }
   }
