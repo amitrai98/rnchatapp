@@ -26,12 +26,12 @@ export class Home extends Component {
         console.log(`${result}`);
         if (result != undefined && result.success) {
           console.log(`${result}`);
-          result.data.map(item => {
-            console.log(`${item}`);
-            users.push(item);
-          });
+          // result.data.map(item => {
+          //   console.log(`${item}`);
+          //   users.push(item);
+          // });
 
-          this.setState({users});
+          // this.setState({users});
           if (users.length > 0) {
             var user = firebase.auth().currentUser;
             let instance = ApiHandler.getInstance();
@@ -50,6 +50,21 @@ export class Home extends Component {
         }
       })
       .catch(error => console.log(`${error}`));
+  }
+
+  componentDidUpdate(prevProp) {
+    const {isFetching, error, data, success, failure} = this.props;
+    if (prevProp.isFetching !== isFetching && !isFetching) {
+      if (success) {
+        console.log(`response data is ${data}`);
+        // data.map(item => {
+        //   console.log(`${item}`);
+        //   users.push(item);
+        // });
+
+        // this.setState({users});
+      }
+    }
   }
 
   openChatScreen(chatData) {

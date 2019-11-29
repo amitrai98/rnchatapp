@@ -2,6 +2,9 @@ import * as types from './HomeActions';
 
 const initialState = {
   data: {},
+  addContactData: {},
+  addContacsuccess: false,
+  addContacfailure: false,
   isFetching: false,
   success: false,
   failure: false,
@@ -24,7 +27,7 @@ export default function homeReducer(state = initialState, action = {}) {
         isFetching: false,
         success: true,
         failure: false,
-        data: action.data,
+        data: action.payload.data,
       };
     case types.GET_HOME_DATA_FAILURE:
       return {
@@ -32,6 +35,31 @@ export default function homeReducer(state = initialState, action = {}) {
         isFetching: false,
         success: false,
         failure: true,
+        error: action.error,
+      };
+
+    case types.ADD_NEW_CONTACT_INPROGRESS:
+      return {
+        ...state,
+        addContactData: {},
+        addContacsuccess: false,
+        addContacfailure: false,
+        isFetching: true,
+      };
+    case types.ADD_NEW_CONTACT_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        addContacsuccess: true,
+        addContacfailure: false,
+        addContactData: action.data,
+      };
+    case types.ADD_NEW_CONTACT_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        addContacsuccess: false,
+        addContacfailure: true,
         error: action.error,
       };
     default:

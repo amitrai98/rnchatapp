@@ -93,9 +93,11 @@ export default class ApiHandler {
   }
 
   getFirebaseContacts(userId) {
-    const contactRef = firebase.database().ref(`UsersList/${userId}/`);
-    contactRef.on('value', function(snapshot) {
-      console.log(`${JSON.stringify(snapshot.val())}`);
+    return new Promise((resolve, reject) => {
+      const contactRef = firebase.database().ref(`UsersList/${userId}/`);
+      contactRef.on('value', function(snapshot) {
+        return resolve(success(snapshot.val()));
+      });
     });
   }
 }
