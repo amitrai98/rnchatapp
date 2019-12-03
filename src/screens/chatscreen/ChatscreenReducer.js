@@ -6,6 +6,11 @@ const initialState = {
   success: false,
   failure: false,
   error: {},
+
+  chatData: {},
+  chatSentSuccess: false,
+  chatSentFailure: false,
+  chatSentError: {},
 };
 
 export default function chatReducer(state = initialState, action = {}) {
@@ -24,7 +29,7 @@ export default function chatReducer(state = initialState, action = {}) {
         isFetching: false,
         success: true,
         failure: false,
-        data: action.data,
+        data: action.payload.data,
       };
     case types.PULL_CHATS_FAILURE:
       return {
@@ -34,6 +39,34 @@ export default function chatReducer(state = initialState, action = {}) {
         failure: true,
         error: action.error,
       };
+
+    // send chat
+
+    case types.SEND_CHAT_MESSAGE_INPROGRESS:
+      return {
+        ...state,
+        chatData: action.data,
+        chatSentSuccess: false,
+        chatSentFailure: false,
+        isFetching: true,
+      };
+    case types.SEND_CHAT_MESSAGE_SUCCESS:
+      return {
+        ...state,
+        chatData: {},
+        chatSentSuccess: true,
+        chatSentFailure: false,
+        isFetching: false,
+      };
+    case types.SEND_CHAT_MESSAGE_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        chatSentSuccess: false,
+        chatSentFailure: true,
+        chatSentError: action.error,
+      };
+
     default:
       return state;
   }

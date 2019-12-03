@@ -30,3 +30,36 @@ export function pullChatsFailure(payload) {
     payload: payload,
   };
 }
+
+// contants for sending chat message
+export const SEND_CHAT_MESSAGE = 'SEND_CHAT_MESSAGE';
+export const SEND_CHAT_MESSAGE_INPROGRESS = 'SEND_CHAT_MESSAGE_INPROGRESS';
+export const SEND_CHAT_MESSAGE_SUCCESS = 'SEND_CHAT_MESSAGE_SUCCESS';
+export const SEND_CHAT_MESSAGE_FAILURE = 'SEND_CHAT_MESSAGE_FAILURE';
+
+export function sendChatMessage(payload) {
+  return {
+    type: SEND_CHAT_MESSAGE,
+    payload: payload,
+  };
+}
+
+export function sendChatMessageProgress(payload) {
+  return {
+    type: SEND_CHAT_MESSAGE_INPROGRESS,
+    payload: payload,
+  };
+}
+
+export function sendChatMessageSuccess(payload) {
+  return {
+    type: SEND_CHAT_MESSAGE_SUCCESS,
+    payload: payload,
+  };
+}
+export function sendChatMessageFailure(payload) {
+  return {
+    type: SEND_CHAT_MESSAGE_FAILURE,
+    payload: payload,
+  };
+}

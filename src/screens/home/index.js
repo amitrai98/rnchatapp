@@ -59,7 +59,10 @@ export class Home extends Component {
   }
 
   openChatScreen(chatData) {
-    this.props.navigation.navigate('chatScreen', {chatData: chatData});
+    this.props.navigation.navigate('chatScreen', {
+      chatData: chatData,
+      loginData: this.props.navigation.getParam('loginData'),
+    });
   }
 
   handleLoadMore = () => {

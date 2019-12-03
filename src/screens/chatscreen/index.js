@@ -2,23 +2,73 @@ import React, {Component} from 'react';
 import {View, StyleSheet, FlatList, ImageBackground} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {pullChats} from './ChatscreenActions';
+import {pullChats, sendChatMessage} from './ChatscreenActions';
 import AppHeader from '../common/AppHeader';
 import ChatMessage from './components/ChatMessage';
-import chat from './components/chat';
 import images from '../../assets/images';
 import ChatInputBox from './components/ChatInputBox';
-import {getMessageObject} from './components/ChatHelper';
+import {
+  MESSAGE_SENT,
+  MESSAGE_UNSEEN,
+  getChatMessage,
+} from './components/ChatHelper';
 
 export class ChatScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messageData: chat,
+      messageData: [],
+      loginData: this.props.navigation.getParam('loginData'),
+      chatData: this.props.navigation.getParam('chatData'),
     };
   }
-  handleSendMessage(message, senderId, receiverId) {
-    let data = getMessageObject(message, senderId, receiverId);
+
+  componentDidMount() {
+    const {loginData, chatData} = this.state;
+
+    this.props.pullChats({
+      messageFrom: loginData.user.phoneNumber,
+      messageTo: chatData.phoneNumbers[0].number,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      isFetching,
+      error,
+      data,
+      success,
+      failure,
+      chatData,
+      chatSentSuccess,
+      chatSentFailure,
+      chatSentError,
+    } = this.props;
+    if (prevProps.isFetching != isFetching && !isFetching) {
+      if (success) {
+        const {messageData} = this.state;
+        messageData.splice(0, messageData.length);
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            var val = data[key];
+            console.log(val);
+            messageData.push(val);
+          }
+        }
+        this.setState(messageData);
+      }
+    }
+  }
+  handleSendMessage(message) {
+    const {loginData, chatData} = this.state;
+    let data = getChatMessage(
+      message,
+      chatData.phoneNumbers[0].number,
+      loginData.user.phoneNumber,
+      MESSAGE_SENT,
+      MESSAGE_UNSEEN,
+    );
+    this.props.sendChatMessage({chatData: data});
     this.setState({messageData: [...this.state.messageData, data]}, () => {
       this.flatListRef.scrollToEnd({
         animated: true,
@@ -31,7 +81,11 @@ export class ChatScreen extends Component {
     const {messageData} = this.state;
     return (
       <View style={styles.container}>
-        <AppHeader title={`${chatData.name}`} />
+        <AppHeader
+          title={`${
+            chatData.givenName != undefined ? chatData.givenName : ''
+          } ${chatData.familyName != undefined ? chatData.familyName : ''}`}
+        />
         <ImageBackground
           source={images.bg_messages}
           style={{width: '100%', height: '100%'}}>
@@ -55,8 +109,8 @@ export class ChatScreen extends Component {
           </View>
           <View style={styles.chatBox}>
             <ChatInputBox
-              onSendPress={(message, senderId, receiverId) => {
-                this.handleSendMessage(message, senderId, receiverId);
+              onSendPress={message => {
+                this.handleSendMessage(message);
               }}
             />
           </View>
@@ -67,19 +121,34 @@ export class ChatScreen extends Component {
 }
 
 function mapStateToProps(state) {
-  const {isFetching, error, data, success, failure} = state.ChatReducer;
+  const {
+    isFetching,
+    error,
+    data,
+    success,
+    failure,
+    chatData,
+    chatSentSuccess,
+    chatSentFailure,
+    chatSentError,
+  } = state.ChatReducer;
   return {
     isFetching,
     error,
     data,
     success,
     failure,
+    chatData,
+    chatSentSuccess,
+    chatSentFailure,
+    chatSentError,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     pullChats: bindActionCreators(pullChats, dispatch),
+    sendChatMessage: bindActionCreators(sendChatMessage, dispatch),
   };
 }
 

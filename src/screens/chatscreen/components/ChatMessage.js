@@ -36,7 +36,7 @@ const ChatMessage = props => {
           }
           element={Text}
           fromNow>
-          {moment(new Date(message.time))}
+          {moment(new Date(message.messageTime))}
         </Moment>
       </View>
     </View>
