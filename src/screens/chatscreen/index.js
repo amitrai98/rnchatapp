@@ -12,7 +12,9 @@ import {
   MESSAGE_UNSEEN,
   getChatMessage,
 } from './components/ChatHelper';
+import ApiHandler from '../../networking/ApiHandler';
 
+let chatListener = null;
 export class ChatScreen extends Component {
   constructor(props) {
     super(props);
@@ -23,13 +25,38 @@ export class ChatScreen extends Component {
     };
   }
 
+  componentWillUnmount() {
+    if (chatListener != null) chatListener();
+  }
+
   componentDidMount() {
-    const {loginData, chatData} = this.state;
+    const {loginData, chatData, messageData} = this.state;
 
     this.props.pullChats({
       messageFrom: loginData.user.phoneNumber,
       messageTo: chatData.phoneNumbers[0].number,
     });
+    chatListener = ApiHandler.getInstance()
+      .startListeningForMessages(
+        {
+          messageFrom: loginData.user.phoneNumber,
+          messageTo: chatData.phoneNumbers[0].number,
+        },
+        message => {
+          messageData.splice(0, messageData.length);
+          for (var key in message.data) {
+            if (message.data.hasOwnProperty(key)) {
+              var val = message.data[key];
+              messageData.push(val);
+            }
+          }
+          messageData.reverse();
+          this.setState(messageData);
+        },
+      )
+      .then(chatListenerInstance => {
+        chatListener = chatListenerInstance;
+      });
   }
 
   componentDidUpdate(prevProps) {
@@ -51,10 +78,10 @@ export class ChatScreen extends Component {
         for (var key in data) {
           if (data.hasOwnProperty(key)) {
             var val = data[key];
-            console.log(val);
             messageData.push(val);
           }
         }
+        messageData.reverse();
         this.setState(messageData);
       }
     }
@@ -69,11 +96,11 @@ export class ChatScreen extends Component {
       MESSAGE_UNSEEN,
     );
     this.props.sendChatMessage({chatData: data});
-    this.setState({messageData: [...this.state.messageData, data]}, () => {
-      this.flatListRef.scrollToEnd({
-        animated: true,
-      });
-    });
+    // this.setState({messageData: [...this.state.messageData, data]}, () => {
+    //   this.flatListRef.scrollToEnd({
+    //     animated: true,
+    //   });
+    // });
   }
   getItemLayout = (data, index) => ({length: 10, offset: 100 * index, index});
   render() {
@@ -94,9 +121,7 @@ export class ChatScreen extends Component {
               ref={ref => {
                 this.flatListRef = ref;
               }}
-              onScrollToIndexFailed={error => {
-                console.log(`error in scroll ${error}`);
-              }}
+              onScrollToIndexFailed={error => {}}
               extraData={messageData.length}
               data={messageData}
               keyExtractor={item => {

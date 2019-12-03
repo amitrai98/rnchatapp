@@ -81,12 +81,10 @@ export default class ApiHandler {
         })
         .then(data => {
           //success callback
-          console.log('data ', data);
           resolve(success(data));
         })
         .catch(error => {
           //error callback
-          console.log('error ', error);
           reject(failure(error));
         });
     });
@@ -104,17 +102,15 @@ export default class ApiHandler {
   sendChatMessage(payload) {
     return new Promise((resolve, reject) => {
       const {messageFrom, messageTo} = payload.chatData;
-      var ref = firebase.database().ref(`${messageFrom}_${messageTo}`);
+      var ref = firebase.database().ref(`messages/${messageFrom}_${messageTo}`);
       ref
         .push(payload.chatData)
         .then(data => {
           //success callback
-          console.log('data ', data);
           resolve(success(data));
         })
         .catch(error => {
           //error callback
-          console.log('error ', error);
           reject(failure(error));
         });
     });
@@ -123,17 +119,35 @@ export default class ApiHandler {
   getAllChatsBetween2Contacts(payload) {
     return new Promise((resolve, reject) => {
       const {messageFrom, messageTo} = payload;
-      var ref = firebase.database().ref(`${messageFrom}_${messageTo}/`);
+      var ref = firebase
+        .database()
+        .ref(`messages/${messageFrom}_${messageTo}/`);
       ref
+        .orderByKey('messageTime')
         .once('value', function(snapshot) {
-          console.log(snapshot.key);
-          console.log(snapshot.val());
           return resolve(success(snapshot.val()));
         })
         .catch(error => {
-          console.log(`there is an error ${error}`);
           reject(error);
         });
+    });
+  }
+
+  startListeningForMessages(payload, onMessageReceived) {
+    return new Promise((resolve, reject) => {
+      const {messageFrom, messageTo} = payload;
+      var ref = firebase
+        .database()
+        .ref(`messages/${messageFrom}_${messageTo}/`);
+
+      var chatinstance = ref
+        .orderByKey('messageTime')
+        .on('value', function(snapshot) {
+          if (snapshot != undefined && onMessageReceived != undefined) {
+            onMessageReceived(success(snapshot.val()));
+          }
+        });
+      resolve(chatinstance);
     });
   }
 }
