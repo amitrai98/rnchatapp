@@ -51,7 +51,13 @@ export class ChatScreen extends Component {
             }
           }
           messageData.reverse();
-          this.setState(messageData);
+          setTimeout(() => {
+            this.setState(messageData, () => {
+              this.flatListRef.scrollToEnd({
+                animated: true,
+              });
+            });
+          }, 200);
         },
       )
       .then(chatListenerInstance => {
@@ -96,11 +102,11 @@ export class ChatScreen extends Component {
       MESSAGE_UNSEEN,
     );
     this.props.sendChatMessage({chatData: data});
-    // this.setState({messageData: [...this.state.messageData, data]}, () => {
-    //   this.flatListRef.scrollToEnd({
-    //     animated: true,
-    //   });
-    // });
+    this.setState({messageData: [...this.state.messageData, data]}, () => {
+      this.flatListRef.scrollToEnd({
+        animated: true,
+      });
+    });
   }
   getItemLayout = (data, index) => ({length: 10, offset: 100 * index, index});
   render() {
