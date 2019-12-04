@@ -55,6 +55,17 @@ export default class ApiHandler {
     };
   }
 
+  signup(payload) {
+    return new Promise((resolve, reject) => {
+      const {email, password} = payload;
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(response => resolve(success(response)))
+        .catch(error => reject(failure(error)));
+    });
+  }
+
   login(payload) {
     const {username, password} = payload;
     return new Promise((resolve, reject) => {

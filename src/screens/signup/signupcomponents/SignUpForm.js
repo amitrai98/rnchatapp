@@ -90,17 +90,9 @@ const SignUpForm = props => {
 
 export default SignUpForm;
 
-function useFormInput(initialValue) {
-  const {value, setValue} = useState('');
-  function handleChange(updatedValue) {
-    setValue(updatedValue);
-  }
-  return {value, onChangeText: handleChange};
-}
-
 function isPasswordValid(password1, password2) {
-  if (password1 === password2 && password1.length > 7) return true;
-  else return true;
+  if (password1 === password2 && password1.length > 6) return true;
+  else return false;
 }
 
 const styles = StyleSheet.create({
