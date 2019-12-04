@@ -35,3 +35,14 @@ export const getChatMessage = (
     messageType: messageType,
   };
 };
+
+export const sortMessage = messageArray => {
+  return messageArray.sort(
+    (a, b) =>
+      getDateFromString(a.messageTime) - getDateFromString(b.messageTime),
+  );
+};
+
+const getDateFromString = stringDate => {
+  return moment(stringDate);
+};

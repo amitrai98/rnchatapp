@@ -1,4 +1,5 @@
 import {PermissionsAndroid} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Contacts from 'react-native-contacts';
 
 export function requestContactPermission() {
@@ -65,5 +66,64 @@ let getPermission = function() {
       .catch(error => {
         return reject(error);
       });
+  });
+};
+
+/**
+ * stores data in local storage.
+ * @param {stores the data with this key} key_to_be_paired
+ * @param {data to be stored} data
+ */
+export const setStoreData = (key_to_be_paired, data) => {
+  return new Promise((resolve, reject) => {
+    try {
+      AsyncStorage.setItem(key_to_be_paired, JSON.stringify(data))
+        .then(result => {
+          console.log('data inserted', result);
+          resolve(result);
+        })
+        .catch(errror => {
+          console.log(`error in insertion ${error}`);
+          reject(error);
+        });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * returns data stored with the key
+ * @param {returns the data stored with this key} key_to_be_fetched
+ */
+export const getStoreData = key_to_be_fetched => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem(key_to_be_fetched)
+      .then(value => {
+        if (value !== null) {
+          let resultJson = JSON.parse(value);
+          resolve(resultJson);
+        } else {
+          reject(value);
+        }
+      })
+      .catch(error => {
+        console.log(`${error}`);
+        reject(error);
+      });
+  });
+};
+
+/**
+ * removes the data that is stored with this key
+ * @param {remove the data stored with this key} key_to_be_removed
+ */
+export const removeStoreData = key_to_be_removed => {
+  new Promise((resolve, reject) => {
+    try {
+      resolve(AsyncStorage.removeItem(key_to_be_removed));
+    } catch (error) {
+      reject(error);
+    }
   });
 };

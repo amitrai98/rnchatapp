@@ -40,7 +40,14 @@ const LoginForm = props => {
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
-            onLoginPress(username, password);
+            if (
+              username != undefined &&
+              username.length > 2 &&
+              password != undefined &&
+              password.length > 2
+            )
+              onLoginPress(username, password);
+            else alert(`Username or password can not be left empty`);
           }}>
           <Text style={styles.loginText}>{`Login`}</Text>
         </TouchableOpacity>

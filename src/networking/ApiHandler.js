@@ -62,10 +62,10 @@ export default class ApiHandler {
         .auth()
         .signInWithEmailAndPassword(username, password)
         .then(response => {
-          resolve(response);
+          resolve(success(response));
         })
         .catch(error => {
-          reject(error);
+          reject(failure(error.message));
         });
     });
   }

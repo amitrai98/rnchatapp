@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import saga from 'redux-saga';
-
 import * as reducers from './src/reducers';
 import rootSaga from './src/sagas';
-import AppNavigator from './src/AppNavigator';
+import AppNavigator from './src/navigator/AppNavigator';
 
 // The middlewares which will be used in this App
 const middlewares = [];

@@ -8,6 +8,8 @@ import AnimatedLinearGradient, {
   presetColors,
 } from 'react-native-animated-linear-gradient';
 import Loader from '../common/Loader';
+import {setStoreData} from '../../util/Utility';
+import DatabaseConst from '../../util/DatabaseConst';
 
 type Props = {};
 
@@ -15,23 +17,25 @@ export class Login extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'amit.rai@gmail.com',
-      password: 'amit.amit',
+      username: '',
+      password: '',
     };
   }
 
   componentDidUpdate(prevProps) {
     const {isFetching, error, data, success, failure} = this.props;
     if (prevProps.isFetching !== isFetching && !isFetching) {
-      if (success) this.props.navigation.navigate('home', {loginData: data});
-      else if (failure) alert(`login error ${error}`);
+      if (success) {
+        setStoreData(DatabaseConst.LOGIN_DATA, data);
+        this.props.navigation.navigate('home', {loginData: data});
+      } else if (failure) alert(`login error `);
     }
   }
 
   attemptLogin(username, password) {
     this.props.attemptLogin({
-      username: this.state.username,
-      password: this.state.password,
+      username: username,
+      password: password,
     });
   }
   openSignUpPage() {

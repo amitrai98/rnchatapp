@@ -11,6 +11,7 @@ import {
   MESSAGE_SENT,
   MESSAGE_UNSEEN,
   getChatMessage,
+  sortMessage,
 } from './components/ChatHelper';
 import ApiHandler from '../../networking/ApiHandler';
 
@@ -50,14 +51,12 @@ export class ChatScreen extends Component {
               messageData.push(val);
             }
           }
-          messageData.reverse();
-          setTimeout(() => {
-            this.setState(messageData, () => {
-              this.flatListRef.scrollToEnd({
-                animated: true,
-              });
+          let sortedMessage = sortMessage(messageData);
+          this.setState(sortedMessage, () => {
+            this.flatListRef.scrollToEnd({
+              animated: true,
             });
-          }, 200);
+          });
         },
       )
       .then(chatListenerInstance => {
@@ -87,8 +86,12 @@ export class ChatScreen extends Component {
             messageData.push(val);
           }
         }
-        messageData.reverse();
-        this.setState(messageData);
+        let sortedMessage = sortMessage(messageData);
+        this.setState(sortedMessage, () => {
+          this.flatListRef.scrollToEnd({
+            animated: true,
+          });
+        });
       }
     }
   }
@@ -102,11 +105,11 @@ export class ChatScreen extends Component {
       MESSAGE_UNSEEN,
     );
     this.props.sendChatMessage({chatData: data});
-    this.setState({messageData: [...this.state.messageData, data]}, () => {
-      this.flatListRef.scrollToEnd({
-        animated: true,
-      });
-    });
+    // this.setState({messageData: [...this.state.messageData, data]}, () => {
+    //   this.flatListRef.scrollToEnd({
+    //     animated: true,
+    //   });
+    // });
   }
   getItemLayout = (data, index) => ({length: 10, offset: 100 * index, index});
   render() {

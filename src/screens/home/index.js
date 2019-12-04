@@ -18,7 +18,6 @@ export class Home extends Component {
   }
 
   componentDidMount() {
-    const {users} = this.state;
     const loginData = this.props.navigation.getParam('loginData');
     this.props.getHomeData({userId: loginData.user.uid});
     requestContactPermission()
