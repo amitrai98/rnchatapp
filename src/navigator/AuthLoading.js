@@ -12,7 +12,9 @@ export default class AuthLoadingScreen extends React.Component {
     getStoreData(DatabaseConst.LOGIN_DATA)
       .then(response => {
         console.log(`login data is s${JSON.stringify(response)}`);
-        this.props.navigation.navigate('home', {loginData: response});
+        if (response != null)
+          this.props.navigation.navigate('home', {loginData: response});
+        else this.props.navigation.navigate('login');
       })
       .catch(error => {
         console.log(`${error}`);

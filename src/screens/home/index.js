@@ -5,8 +5,9 @@ import {connect} from 'react-redux';
 import {getHomeData, addNewContact} from './HomeActions';
 import AppHeader from '../common/AppHeader';
 import ContactRoaster from './homecomponents/ContactRoaster';
-import {requestContactPermission} from '../../util/Utility';
+import {requestContactPermission, setStoreData} from '../../util/Utility';
 import Loader from '../common/Loader';
+import DatabaseConst from '../../util/DatabaseConst';
 
 export class Home extends Component {
   constructor(props) {
@@ -77,12 +78,24 @@ export class Home extends Component {
     this.props.getHomeData({userId: loginData.user.uid});
   }
 
+  handleSignout() {
+    console.log(`handle signout`);
+    setStoreData(DatabaseConst.LOGIN_DATA, null);
+    this.props.navigation.navigate('AuthLoading');
+  }
+
   render() {
     const {users, isRefreshing} = this.state;
     const {isFetching} = this.props;
     return (
       <View style={styles.container}>
-        <AppHeader title={`Home`} />
+        <AppHeader
+          title={`Home`}
+          rightTitle={'Signout'}
+          handleOnRightOptionPress={() => {
+            this.handleSignout();
+          }}
+        />
         {!isRefreshing ? <Loader loading={isFetching} /> : null}
 
         <View style={styles.roasterView}>

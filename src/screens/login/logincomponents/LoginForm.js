@@ -10,8 +10,8 @@ import {Base64} from 'js-base64';
 
 const LoginForm = props => {
   const {onLoginPress, onSignUpPress} = props;
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('amit.rai@gmail.com');
+  const [password, setPassword] = useState('amit.amit');
 
   return (
     <View style={styles.container}>
