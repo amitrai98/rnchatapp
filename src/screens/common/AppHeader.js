@@ -2,11 +2,11 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
 const AppHeader = props => {
-  const {title} = props;
+  const {title, leftTitle} = props;
   return (
     <View style={styles.container}>
       <View style={styles.leftHeaderView}>
-        <Text>{title}</Text>
+        {leftTitle != undefined ? <Text>{leftTitle}</Text> : null}
       </View>
       <View style={styles.centerHeaderView}>
         <Text style={styles.headerText}>{title}</Text>

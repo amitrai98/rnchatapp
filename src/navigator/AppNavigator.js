@@ -8,15 +8,31 @@ import Signup from '../screens/signup';
 import ChatScreen from '../screens/chatscreen';
 import AuthLoadingScreen from './AuthLoading';
 
-const AppStack = createStackNavigator({
-  home: {screen: home},
+let navigationOptions = {
+  headerMode: 'none',
+  header: null,
+};
 
-  chatScreen: {screen: ChatScreen},
-});
-const AuthStack = createStackNavigator({
-  login: {screen: Login},
-  signup: {screen: Signup},
-});
+const AppStack = createStackNavigator(
+  {
+    home: {screen: home},
+    chatScreen: {screen: ChatScreen},
+  },
+  {
+    initialRouteName: 'home',
+    headerMode: 'none',
+  },
+);
+const AuthStack = createStackNavigator(
+  {
+    login: {screen: Login},
+    signup: {screen: Signup},
+  },
+  {
+    initialRouteName: 'login',
+    headerMode: 'none',
+  },
+);
 export default createAppContainer(
   createSwitchNavigator(
     {
@@ -27,9 +43,7 @@ export default createAppContainer(
     {
       initialRouteName: 'AuthLoading',
       headerMode: 'none',
-      navigationOptions: {
-        headerVisible: false,
-      },
+      navigationOptions: navigationOptions,
     },
   ),
 );

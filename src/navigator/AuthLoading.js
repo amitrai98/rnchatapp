@@ -1,8 +1,10 @@
 import React from 'react';
-import {ActivityIndicator, StatusBar, View} from 'react-native';
+import {ActivityIndicator, StatusBar, View, Text} from 'react-native';
 import {getStoreData} from '../util/Utility';
 import DatabaseConst from '../util/DatabaseConst';
-
+import AnimatedLinearGradient, {
+  presetColors,
+} from 'react-native-animated-linear-gradient';
 export default class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -23,10 +25,6 @@ export default class AuthLoadingScreen extends React.Component {
   }
 
   render() {
-    return (
-      <View>
-        <ActivityIndicator />
-      </View>
-    );
+    return <View style={{flex: 1, justifyContent: 'center'}}></View>;
   }
 }
