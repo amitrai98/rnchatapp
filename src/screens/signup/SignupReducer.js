@@ -24,7 +24,7 @@ export default function signUpReducer(state = initialState, action = {}) {
         isFetching: false,
         success: true,
         failure: false,
-        data: action.data,
+        data: action.payload.data,
       };
     case types.ATTEMPT_SIGNUP_FAILURE:
       return {
@@ -32,7 +32,7 @@ export default function signUpReducer(state = initialState, action = {}) {
         isFetching: false,
         success: false,
         failure: true,
-        error: action.error,
+        error: action.payload.error,
       };
     default:
       return state;

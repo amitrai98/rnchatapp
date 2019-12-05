@@ -62,8 +62,15 @@ export default class ApiHandler {
       const {email, password} = payload;
       auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(response => resolve(success(response)))
-        .catch(error => reject(failure(error)));
+        .then(response => {
+          console.log(`${response}`);
+          resolve(success(response));
+        })
+        .catch(error => {
+          console.log(`error is ${error.message}`);
+
+          reject(failure(error.message));
+        });
     });
   }
 

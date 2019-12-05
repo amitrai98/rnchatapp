@@ -8,6 +8,9 @@ import AnimatedLinearGradient, {
 } from 'react-native-animated-linear-gradient';
 import SignUpForm from './signupcomponents/SignUpForm';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Loader from '../common/Loader';
+import {setStoreData} from '../../util/Utility';
+import DatabaseConst from '../../util/DatabaseConst';
 
 type Props = {};
 
@@ -15,6 +18,18 @@ export class Signup extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidUpdate(prevProps) {
+    const {isFetching, error, data, success, failure} = this.props;
+    if (prevProps.isFetching != isFetching && !isFetching) {
+      if (success) {
+        setStoreData(DatabaseConst.LOGIN_DATA, data);
+        this.props.navigation.navigate('home', {loginData: data});
+      } else if (error != undefined) {
+        alert(`${error}`);
+      } else alert(`There was an error in signup`);
+    }
   }
 
   attemptSignup(signupObject) {
@@ -29,8 +44,10 @@ export class Signup extends Component<Props> {
     this.props.navigation.navigate('login');
   }
   render() {
+    const {isFetching} = this.props;
     return (
       <View style={styles.container}>
+        <Loader loading={isFetching} />
         <AnimatedLinearGradient
           customColors={presetColors.instagram}
           speed={4000}
@@ -51,7 +68,7 @@ export class Signup extends Component<Props> {
 }
 
 function mapStateToProps(state) {
-  const {isFetching, error, data, success, failure} = state.LoginReducer;
+  const {isFetching, error, data, success, failure} = state.SignupReducer;
   return {
     isFetching,
     error,

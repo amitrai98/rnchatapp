@@ -7,11 +7,11 @@ import {isValidSignupInput} from './SignupHelper';
 
 const SignUpForm = props => {
   const {onLoginPress, onSignUpPress} = props;
-  const [name, setName] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('asdfasdfasdf');
+  const [password1, setPassword1] = useState('asdfasdfasdffasdf');
+  const [password2, setPassword2] = useState('asdfasdfasdffasdf');
+  const [email, setEmail] = useState('amit@as.fas');
+  const [phone, setPhone] = useState('asdfasdfasdfasdf');
 
   function clearData() {
     setName('');
