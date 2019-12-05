@@ -1,4 +1,6 @@
 import {firebase} from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
+
 import {success, failure} from './NetworkConst';
 
 var authToken = null;
@@ -58,8 +60,7 @@ export default class ApiHandler {
   signup(payload) {
     return new Promise((resolve, reject) => {
       const {email, password} = payload;
-      firebase
-        .auth()
+      auth()
         .createUserWithEmailAndPassword(email, password)
         .then(response => resolve(success(response)))
         .catch(error => reject(failure(error)));
@@ -69,8 +70,7 @@ export default class ApiHandler {
   login(payload) {
     const {username, password} = payload;
     return new Promise((resolve, reject) => {
-      firebase
-        .auth()
+      auth()
         .signInWithEmailAndPassword(username, password)
         .then(response => {
           resolve(success(response));

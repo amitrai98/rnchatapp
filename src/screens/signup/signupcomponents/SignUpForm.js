@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import InputBox from '../../common/InputBox';
 import TouchableButton from '../../common/TouchableButton';
 import {Base64} from 'js-base64';
+import {isValidSignupInput} from './SignupHelper';
 
 const SignUpForm = props => {
   const {onLoginPress, onSignUpPress} = props;
@@ -59,14 +60,21 @@ const SignUpForm = props => {
 
       <TouchableButton
         onPress={() => {
-          if (isPasswordValid(password1, password2))
+          let status = isValidSignupInput(
+            name,
+            email,
+            phone,
+            password1,
+            password2,
+          );
+          if (status.isValidInput)
             onSignUpPress({
               name: name,
               email: email,
               phone: phone,
               password: password1,
             });
-          else alert(`Passwords do not match`);
+          else alert(`${status.message}`);
         }}
         buttonLabel={`SignUp`}
         textStyle={styles.signupText}
