@@ -7,12 +7,9 @@ export function* handleAttemptSignup(action) {
     yield put(types.attemptSignupProgress());
     let apiInstance = ApiHandler.getInstance();
     const result = yield apiInstance.signup(action.payload);
-    console.log(`handling error ${JSON.stringify(result)}`);
-
     if (result.success) yield put(types.attemptSignupSuccess(result));
     else yield put(types.attemptSignupFailure(result));
   } catch (error) {
-    console.log(`handling error ${JSON.stringify(error)}`);
     yield put(types.attemptSignupFailure(error));
   }
 }

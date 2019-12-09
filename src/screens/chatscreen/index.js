@@ -34,29 +34,34 @@ export class ChatScreen extends Component {
     const {loginData, chatData, messageData} = this.state;
 
     this.props.pullChats({
-      messageFrom: loginData.user.phoneNumber,
+      messageFrom: loginData.user.uid,
       messageTo: chatData.phoneNumbers[0].number,
     });
-    chatListener = ApiHandler.getInstance()
+    ApiHandler.getInstance()
       .startListeningForMessages(
         {
-          messageFrom: loginData.user.phoneNumber,
+          messageFrom: loginData.user.uid,
           messageTo: chatData.phoneNumbers[0].number,
         },
         message => {
-          messageData.splice(0, messageData.length);
+          let messagePulledData = [];
+
           for (var key in message.data) {
-            if (message.data.hasOwnProperty(key)) {
-              var val = message.data[key];
-              messageData.push(val);
-            }
+            try {
+              if (message.data.hasOwnProperty(key)) {
+                var val = message.data[key];
+                messagePulledData.push(val);
+              }
+            } catch (error) {}
           }
-          let sortedMessage = sortMessage(messageData);
-          this.setState(sortedMessage, () => {
-            this.flatListRef.scrollToEnd({
-              animated: true,
-            });
-          });
+          let sortedMessage = sortMessage(messagePulledData);
+
+          if (sortedMessage.length > 0) {
+            messageData.splice(0, messageData.length);
+            // setTimeout(() => {
+            this.setState({messageData: sortedMessage});
+            // }, 200);
+          }
         },
       )
       .then(chatListenerInstance => {
@@ -100,7 +105,7 @@ export class ChatScreen extends Component {
     let data = getChatMessage(
       message,
       chatData.phoneNumbers[0].number,
-      loginData.user.phoneNumber,
+      loginData.user.uid,
       MESSAGE_SENT,
       MESSAGE_UNSEEN,
     );

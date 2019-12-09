@@ -19,8 +19,7 @@ export function requestContactPermission() {
       //         if (err === 'denied') {
       //           reject({success: false, error: err});
       //         } else {
-      //           console.log('found all contacts ' + contacts);
-      //           resolve({success: true, data: contacts});
+      //           //           resolve({success: true, data: contacts});
       //         }
       //       });
       //     }
@@ -35,7 +34,6 @@ export function requestContactPermission() {
               if (err === 'denied') {
                 return reject({success: false, error: err});
               } else {
-                console.log('found all contacts ' + contacts);
                 return resolve({success: true, data: contacts});
               }
             });
@@ -79,11 +77,9 @@ export const setStoreData = (key_to_be_paired, data) => {
     try {
       AsyncStorage.setItem(key_to_be_paired, JSON.stringify(data))
         .then(result => {
-          console.log('data inserted', result);
           resolve(result);
         })
         .catch(errror => {
-          console.log(`error in insertion ${error}`);
           reject(error);
         });
     } catch (error) {
@@ -108,7 +104,6 @@ export const getStoreData = key_to_be_fetched => {
         }
       })
       .catch(error => {
-        console.log(`${error}`);
         reject(error);
       });
   });

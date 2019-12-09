@@ -23,14 +23,11 @@ export class Home extends Component {
     this.props.getHomeData({userId: loginData.user.uid});
     requestContactPermission()
       .then(result => {
-        console.log(`${result}`);
         if (result != undefined && result.success) {
-          console.log(`${result}`);
         } else {
-          console.log(`${result}`);
         }
       })
-      .catch(error => console.log(`${error}`));
+      .catch(errror => {});
   }
 
   componentDidUpdate(prevProp) {
@@ -39,18 +36,15 @@ export class Home extends Component {
     if (prevProp.isFetching !== isFetching && !isFetching) {
       this.setState({isRefreshing: false});
       if (success) {
-        console.log(`response data is ${data}`);
         users.splice(0, users.length);
         for (var key in data) {
           if (data.hasOwnProperty(key)) {
             var val = data[key];
-            console.log(val);
             users.push(val.userData);
           }
         }
         // data.map(item => {
-        //   console.log(`${item}`);
-        //   users.push(item);
+        //   //   users.push(item);
         // });
 
         this.setState({users});
@@ -79,7 +73,6 @@ export class Home extends Component {
   }
 
   handleSignout() {
-    console.log(`handle signout`);
     setStoreData(DatabaseConst.LOGIN_DATA, null);
     this.props.navigation.navigate('AuthLoading');
   }

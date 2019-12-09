@@ -63,12 +63,9 @@ export default class ApiHandler {
       auth()
         .createUserWithEmailAndPassword(email, password)
         .then(response => {
-          console.log(`${response}`);
           resolve(success(response));
         })
         .catch(error => {
-          console.log(`error is ${error.message}`);
-
           reject(failure(error.message));
         });
     });
@@ -120,7 +117,9 @@ export default class ApiHandler {
   sendChatMessage(payload) {
     return new Promise((resolve, reject) => {
       const {messageFrom, messageTo} = payload.chatData;
-      var ref = firebase.database().ref(`messages/${messageFrom}_${messageTo}`);
+      var ref = firebase
+        .database()
+        .ref(`messages/${messageFrom}/${messageFrom}_${messageTo}`);
       ref
         .push(payload.chatData)
         .then(data => {
@@ -139,7 +138,7 @@ export default class ApiHandler {
       const {messageFrom, messageTo} = payload;
       var ref = firebase
         .database()
-        .ref(`messages/${messageFrom}_${messageTo}/`);
+        .ref(`messages/${messageFrom}/${messageFrom}_${messageTo}/`);
       ref
         .orderByKey('messageTime')
         .once('value', function(snapshot) {
@@ -154,9 +153,8 @@ export default class ApiHandler {
   startListeningForMessages(payload, onMessageReceived) {
     return new Promise((resolve, reject) => {
       const {messageFrom, messageTo} = payload;
-      var ref = firebase
-        .database()
-        .ref(`messages/${messageFrom}_${messageTo}/`);
+      let dbRef = `messages/${messageFrom}/${messageFrom}_${messageTo}/`;
+      var ref = firebase.database().ref(dbRef);
 
       var chatinstance = ref
         .orderByKey('messageTime')
