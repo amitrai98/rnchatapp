@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {log} from '../../../util/Applogger';
 
 export const MESSAGE_SEEN = 'seen';
 export const MESSAGE_UNSEEN = 'unseen';
@@ -45,4 +46,13 @@ export const sortMessage = messageArray => {
 
 const getDateFromString = stringDate => {
   return moment(stringDate);
+};
+
+export const handleNewMessage = (currentMessageStack, receivedMessageArray) => {
+  // let sortedMessages = sortMessage(receivedMessageArray);
+  // var resultArray = receivedMessageArray.filter(function(obj) {
+  //   return currentMessageStack.indexOf(obj) == -1;
+  // });
+  // log(`result array ${resultArray}`);
+  // return resultArray;
 };

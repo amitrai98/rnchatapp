@@ -12,6 +12,7 @@ import {
   MESSAGE_UNSEEN,
   getChatMessage,
   sortMessage,
+  handleNewMessage,
 } from './components/ChatHelper';
 import ApiHandler from '../../networking/ApiHandler';
 
@@ -44,24 +45,32 @@ export class ChatScreen extends Component {
           messageTo: chatData.phoneNumbers[0].number,
         },
         message => {
-          let messagePulledData = [];
+          handleNewMessage(message);
+          // let messagePulledData = [];
 
-          for (var key in message.data) {
-            try {
-              if (message.data.hasOwnProperty(key)) {
-                var val = message.data[key];
-                messagePulledData.push(val);
-              }
-            } catch (error) {}
-          }
-          let sortedMessage = sortMessage(messagePulledData);
+          // for (var key in message.data) {
+          //   try {
+          //     if (message.data.hasOwnProperty(key)) {
+          //       var val = message.data[key];
+          //       messagePulledData.push(val);
+          //     }
+          //   } catch (error) {}
+          // }
+          // let uniqueMessages = handleNewMessage(
+          //   this.state.messageData,
+          //   messagePulledData,
+          // );
+          // if (uniqueMessages == undefined) return;
+          // let sortedMessage = sortMessage(uniqueMessages);
 
-          if (sortedMessage.length > 0) {
-            messageData.splice(0, messageData.length);
-            // setTimeout(() => {
-            this.setState({messageData: sortedMessage});
-            // }, 200);
-          }
+          // if (sortedMessage.length > 0) {
+          //   // messageData.splice(0, messageData.length);
+          //   // setTimeout(() => {
+          //   this.setState({messageData: sortedMessage}, () => {
+          //     this.flatListRef.scrollToEnd({animated: true});
+          //   });
+          //   // }, 200);
+          // }
         },
       )
       .then(chatListenerInstance => {
