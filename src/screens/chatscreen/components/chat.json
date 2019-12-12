@@ -1,0 +1,29 @@
+[
+  {
+    "id": `asdf`,
+    "to": 212121212,
+    "from": 55994895330,
+    "time": "11-24-2019 12:20",
+    "message": "hola how are you",
+    "viewStatus": "unseen",
+    "messageType": "sent"
+  },
+  {
+    "id": `asdfa`,
+    "to": 212121212,
+    "from": 55994895330,
+    "time": "11-25-2019 12:20",
+    "message": "i am good thank you",
+    "viewStatus": "unseen",
+    "messageType": "received"
+  },
+  {
+    "id": `asdfas`,
+    "to": 212121212,
+    "from": 55994895330,
+    "time": "11-26-2019 12:20",
+    "message": `labore veniam veniam. Ex nisia deserunt irure amet nulla labore aliqua.`,
+    "viewStatus": "unseen",
+    "messageType": "sent"
+  }
+]
